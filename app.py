@@ -36,7 +36,7 @@ classifier = load_model()
 # VIRUSTOTAL API
 # =====================================================
 
-VT_API_KEY = "b8712e254c9cc5e2f8a679822cdf8bcff4812984ae9bab1933fb0ea8f5b0fd40"
+VT_API_KEY = st.secrets["VT_API_KEY"]
 
 # =====================================================
 # VIRUSTOTAL URL CHECKER
