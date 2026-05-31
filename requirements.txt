@@ -1,0 +1,10 @@
+
+streamlit
+pandas
+plotly
+transformers
+torch
+requests
+scikit-learn
+streamlit-option-menu
+
