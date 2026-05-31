@@ -206,7 +206,7 @@ h1, h2, h3 {
 st.sidebar.image("logo.png", width=170)
 
 st.sidebar.markdown("""
-<h1 style='color:white; margin-bottom:0;'>PhishLog</h1>
+<h1 style='color:white; margin-bottom:0;'> WELCOME TO PhishLog! </h1>
 <p style='color:#00C2FF;'>AI-Enhanced Monitoring</p>
 """, unsafe_allow_html=True)
 
