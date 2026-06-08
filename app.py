@@ -192,6 +192,7 @@ menu = st.sidebar.radio(
     [
         "Dashboard",
         "Scan URL / Text",
+        "User Manual",
         "About",
         "Phishing Related Insights"
     ]
@@ -903,23 +904,91 @@ elif menu == "User Manual":
     # DASHBOARD OVERVIEW
     # =================================================
 
-    with st.expander("1️⃣ Dashboard Overview", expanded=True):
+    with st.expander("1️⃣ Dashboard Visual Guide", expanded=True):
 
-        st.markdown(
-            """
-            The dashboard provides real-time cybersecurity monitoring and
-            phishing detection analytics using AI and external threat
-            intelligence integration.
+        st.markdown("""
+        <style>
 
-            Users can:
+        .manual-box {
+            background: #0D2347;
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 18px;
+            padding: 20px;
+            color: white;
+            margin-bottom: 15px;
+        }
 
-            - Monitor suspicious server activities
-            - Analyze phishing-related threats
-            - View security analytics visualizations
-            - Scan suspicious URLs or text
-            - Download suspicious log reports
-            """
-        )
+        .manual-title {
+            color: #00C2FF;
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .arrow {
+            color: #00C2FF;
+            font-size: 26px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        </style>
+        """, unsafe_allow_html=True)
+
+        col1, col2, col3 = st.columns([1.2, 0.3, 2])
+
+        with col1:
+
+            st.markdown("""
+            <div class="manual-box">
+                <div class="manual-title">📊 Dashboard Page</div>
+                The main page displays security analytics from server access logs.
+            </div>
+
+            <div class="manual-box">
+                <div class="manual-title">🎛️ Filters</div>
+                Users can filter logs by threat severity, protocol, and log source.
+            </div>
+
+            <div class="manual-box">
+                <div class="manual-title">📌 KPI Cards</div>
+                Shows total logs, suspicious logs, malicious logs, and blocked requests.
+            </div>
+            """, unsafe_allow_html=True)
+
+        with col2:
+
+            st.markdown("""
+            <div class="arrow">➡️</div>
+            <br><br>
+            <div class="arrow">➡️</div>
+            <br><br>
+            <div class="arrow">➡️</div>
+            """, unsafe_allow_html=True)
+
+        with col3:
+
+            st.markdown("""
+            <div class="manual-box">
+                <div class="manual-title">🔍 Diagnostic Charts</div>
+                The charts explain threat severity, protocol usage, and log source activities.
+            </div>
+
+            <div class="manual-box">
+                <div class="manual-title">📈 Threat Timeline</div>
+                Displays threat activity trends over time to identify suspicious spikes.
+            </div>
+
+            <div class="manual-box">
+                <div class="manual-title">🛡️ Prescriptive Analytics</div>
+                Provides recommended actions such as reviewing malicious logs, monitoring unusual access, and updating firewall or IDS rules.
+            </div>
+
+            <div class="manual-box">
+                <div class="manual-title">📥 Export Report</div>
+                Users can download suspicious logs and dashboard summary reports for further analysis.
+            </div>
+            """, unsafe_allow_html=True)
 
     # =================================================
     # SIDEBAR NAVIGATION
