@@ -5,7 +5,6 @@ from transformers import pipeline
 import plotly.express as px
 import requests
 import base64
-from datetime import datetime
 
 # =====================================================
 # PAGE CONFIG
@@ -31,7 +30,6 @@ def load_model():
 
     return classifier
 
-
 classifier = load_model()
 
 # =====================================================
@@ -50,6 +48,7 @@ def check_url_virustotal(url):
         "x-apikey": VT_API_KEY
     }
 
+    # Encode URL
     url_id = base64.urlsafe_b64encode(
         url.encode()
     ).decode().strip("=")
@@ -89,7 +88,6 @@ def load_data():
 
     return df
 
-
 df = load_data()
 
 # =====================================================
@@ -108,29 +106,50 @@ st.markdown("""
 section[data-testid="stSidebar"] {
     background-color: #0B2447;
     border-right: 1px solid rgba(255,255,255,0.08);
+
 }
 
-/* SIDEBAR NAVIGATION */
+/* =====================================================
+SIDEBAR NAVIGATION IMPROVEMENT
+===================================================== */
 
 section[data-testid="stSidebar"] .stRadio label {
+
     font-size: 20px !important;
     font-weight: 500 !important;
+
     min-height: 60px;
+
     display: flex;
     align-items: center;
-    padding: 12px 14px !important;
+
+    padding-top: 12px !important;
+    padding-bottom: 12px !important;
+    padding-left: 14px !important;
+    padding-right: 14px !important;
+
     margin-bottom: 10px !important;
+
     border-radius: 12px;
+
     transition: 0.2s ease-in-out;
 }
 
+/* HOVER EFFECT */
+
 section[data-testid="stSidebar"] .stRadio label:hover {
+
     background-color: rgba(0,194,255,0.15);
+
     border: 1px solid rgba(0,194,255,0.25);
+
     cursor: pointer;
 }
 
+/* RADIO GROUP SPACING */
+
 div[role="radiogroup"] {
+
     gap: 10px;
 }
 
@@ -140,6 +159,7 @@ div[role="radiogroup"] {
     padding-right: 2rem;
 }
 
+/* KPI CARDS */
 [data-testid="stMetric"] {
     background: #0D2347;
     padding: 18px;
@@ -148,6 +168,7 @@ div[role="radiogroup"] {
     border-left: 5px solid #00C2FF;
 }
 
+/* BUTTON */
 div.stButton > button {
     background: linear-gradient(90deg, #00C2FF, #007BFF);
     color: white;
@@ -157,6 +178,7 @@ div.stButton > button {
     font-weight: bold;
 }
 
+/* TEXT AREA */
 textarea {
     background-color: #0D2347 !important;
     color: white !important;
@@ -164,6 +186,7 @@ textarea {
     border: 1px solid #1E4E8C !important;
 }
 
+/* DATAFRAME */
 [data-testid="stDataFrame"] {
     border-radius: 15px;
     overflow: hidden;
@@ -183,7 +206,7 @@ h1, h2, h3 {
 st.sidebar.image("logo.png", width=170)
 
 st.sidebar.markdown("""
-<h1 style='color:white; margin-bottom:0;'>WELCOME TO PhishLog!</h1>
+<h1 style='color:white; margin-bottom:0;'> WELCOME TO PhishLog! </h1>
 <p style='color:#00C2FF;'>AI-Enhanced Monitoring</p>
 """, unsafe_allow_html=True)
 
@@ -215,20 +238,12 @@ margin-bottom:20px;
 """, unsafe_allow_html=True)
 
 # =====================================================
-# DASHBOARD PAGE
+# ADVANCED CONNECTED DASHBOARD
 # =====================================================
 
 if menu == "Dashboard":
 
     st.title("📊 Security Monitoring Dashboard")
-
-    st.markdown(
-        "This dashboard provides real-time monitoring and phishing detection analysis using AI and threat intelligence integration."
-    )
-
-    st.caption(
-        f"Last Updated: {datetime.now().strftime('%d %B %Y, %I:%M %p')}"
-    )
 
     # =================================================
     # FILTER SECTION
@@ -238,6 +253,7 @@ if menu == "Dashboard":
 
     f1, f2, f3 = st.columns(3)
 
+    # THREAT FILTER
     with f1:
 
         selected_threat = st.multiselect(
@@ -246,6 +262,7 @@ if menu == "Dashboard":
             default=[]
         )
 
+    # PROTOCOL FILTER
     with f2:
 
         selected_protocol = st.multiselect(
@@ -254,6 +271,7 @@ if menu == "Dashboard":
             default=[]
         )
 
+    # LOG SOURCE FILTER
     with f3:
 
         selected_log = st.multiselect(
@@ -286,10 +304,21 @@ if menu == "Dashboard":
             filtered_df["log_type"].isin(selected_log)
         ]
 
+    # =================================================
+    # EMPTY DATA PROTECTION
+    # =================================================
+
     if len(filtered_df) == 0:
 
-        st.warning("No data available for selected filters.")
+        st.warning(
+            "No data available for selected filters."
+        )
+
         st.stop()
+
+    # =================================================
+    # DYNAMIC DATA
+    # =================================================
 
     dashboard_df = filtered_df.sample(
         min(3000, len(filtered_df))
@@ -313,19 +342,19 @@ if menu == "Dashboard":
 
     suspicious_logs = len(
         dashboard_df[
-            dashboard_df["threat_label"] == "suspicious"
+            dashboard_df['threat_label'] == 'suspicious'
         ]
     )
 
     malicious_logs = len(
         dashboard_df[
-            dashboard_df["threat_label"] == "malicious"
+            dashboard_df['threat_label'] == 'malicious'
         ]
     )
 
     blocked_requests = len(
         dashboard_df[
-            dashboard_df["action"] == "blocked"
+            dashboard_df['action'] == 'blocked'
         ]
     )
 
@@ -381,13 +410,7 @@ if menu == "Dashboard":
             values=threat_counts.values,
             names=threat_counts.index,
             hole=0.6,
-            title="Threat Severity Distribution",
-            color=threat_counts.index,
-            color_discrete_map={
-                "suspicious": "#FFA500",
-                "malicious": "#FF3333",
-                "safe": "#2ECC71"
-            }
+            title="Threat Severity Distribution"
         )
 
         fig1.update_layout(
@@ -490,49 +513,6 @@ if menu == "Dashboard":
     st.divider()
 
     # =================================================
-    # THREAT ACTION DISTRIBUTION
-    # =================================================
-
-    st.markdown("## 🚦 Threat Action Distribution")
-
-    action_counts = dashboard_df[
-        "action"
-    ].value_counts()
-
-    action_df = pd.DataFrame({
-        "Action": action_counts.index,
-        "Count": action_counts.values
-    })
-
-    fig_action = px.pie(
-        action_df,
-        values="Count",
-        names="Action",
-        hole=0.5,
-        title="Blocked vs Allowed Requests",
-        color="Action",
-        color_discrete_map={
-            "blocked": "#2ECC71",
-            "allowed": "#FFA500"
-        }
-    )
-
-    fig_action.update_layout(
-        paper_bgcolor="#0D2347",
-        plot_bgcolor="#0D2347",
-        font_color="white",
-        height=350,
-        legend_title="Request Action"
-    )
-
-    st.plotly_chart(
-        fig_action,
-        use_container_width=True
-    )
-
-    st.divider()
-
-    # =================================================
     # THREAT TIMELINE
     # =================================================
 
@@ -573,53 +553,25 @@ if menu == "Dashboard":
 
     st.markdown("## 🛡️ Prescriptive Analytics")
 
-    st.caption(
-        "Provides recommended security actions based on the current dashboard findings."
-    )
-
     p1, p2, p3 = st.columns(3)
 
     with p1:
 
-        if malicious_logs > 0:
-
-            st.error(
-                "🚨 High-risk activities detected. Review malicious logs and strengthen firewall rules immediately."
-            )
-
-        else:
-
-            st.success(
-                "✅ No malicious logs detected in the current filtered data."
-            )
+        st.info(
+            "🔐 Enable multi-factor authentication to reduce phishing risks."
+        )
 
     with p2:
 
-        if suspicious_logs > malicious_logs:
-
-            st.warning(
-                "⚠️ Suspicious activities are high. Monitor login activities and investigate unusual access patterns."
-            )
-
-        else:
-
-            st.info(
-                "🔍 Continue monitoring suspicious activities regularly."
-            )
+        st.warning(
+            "⚠️ Monitor suspicious login activities regularly."
+        )
 
     with p3:
 
-        if blocked_requests > 0:
-
-            st.success(
-                "✅ Blocked requests detected. Keep firewall and IDS rules updated continuously."
-            )
-
-        else:
-
-            st.warning(
-                "⚠️ No blocked requests detected. Review security rules to ensure threats are properly filtered."
-            )
+        st.success(
+            "✅ Update firewall and IDS rules continuously."
+        )
 
     st.divider()
 
@@ -653,33 +605,6 @@ if menu == "Dashboard":
         height=300
     )
 
-    suspicious_csv = suspicious.to_csv(index=False).encode("utf-8")
-
-    st.download_button(
-        label="📥 Download Suspicious Logs CSV",
-        data=suspicious_csv,
-        file_name="suspicious_logs_report.csv",
-        mime="text/csv"
-    )
-
-    dashboard_report = (
-        f"PhishLog Dashboard Report\n\n"
-        f"Last Updated: {datetime.now().strftime('%d %B %Y, %I:%M %p')}\n\n"
-        f"Total Logs: {total_logs}\n"
-        f"Suspicious Logs: {suspicious_logs}\n"
-        f"Malicious Logs: {malicious_logs}\n"
-        f"Blocked Requests: {blocked_requests}\n\n"
-        f"Summary:\n"
-        f"This report summarizes the current cybersecurity monitoring results based on selected dashboard filters."
-    )
-
-    st.download_button(
-        label="📄 Download Dashboard Summary Report",
-        data=dashboard_report,
-        file_name="dashboard_summary_report.txt",
-        mime="text/plain"
-    )
-
 # =====================================================
 # SCANNER PAGE
 # =====================================================
@@ -699,6 +624,10 @@ elif menu == "Scan URL / Text":
     if st.button("Analyze Threat"):
 
         if user_input.strip():
+
+            # =================================================
+            # BERT MODEL PREDICTION
+            # =================================================
 
             result = classifier(user_input)
 
@@ -723,13 +652,25 @@ elif menu == "Scan URL / Text":
                 f"Confidence Score: {score:.2%}"
             )
 
+            # =================================================
+            # PREPARE URL FOR VIRUSTOTAL
+            # =================================================
+
             vt_input = user_input.strip()
+
+            # AUTO ADD HTTPS IF USER DOES NOT INCLUDE IT
 
             if not vt_input.startswith(("http://", "https://")):
 
                 vt_input = "https://" + vt_input
 
+            # =================================================
+            # VIRUSTOTAL CHECK
+            # =================================================
+
             malicious, suspicious = check_url_virustotal(vt_input)
+
+            # HANDLE FAILED API RESPONSE
 
             if malicious is None:
 
@@ -765,8 +706,13 @@ elif menu == "Scan URL / Text":
                     "✅ VirusTotal indicates this URL is safe."
                 )
 
+            # =================================================
+            # FINAL SECURITY VERDICT
+            # =================================================
+
             st.markdown("## 🛡️ Final Security Verdict")
 
+            # CASE 1
             if "phishing" in label.lower() and malicious > 0:
 
                 st.error(
@@ -777,6 +723,7 @@ elif menu == "Scan URL / Text":
                     "Both the AI model and VirusTotal identified this URL as potentially malicious."
                 )
 
+            # CASE 2
             elif malicious > 0:
 
                 st.warning(
@@ -787,16 +734,19 @@ elif menu == "Scan URL / Text":
                     "VirusTotal identified suspicious activity associated with this URL."
                 )
 
+            # CASE 3
             elif "phishing" in label.lower() and malicious == 0:
 
                 st.success(
                     "✅ URL APPEARS SAFE"
                 )
-
+          
                 st.markdown(
                     "VirusTotal verified that this URL is safe. The AI model prediction is likely a false positive."
                 )
 
+
+            # CASE 4
             else:
 
                 st.success(
@@ -806,6 +756,10 @@ elif menu == "Scan URL / Text":
                 st.markdown(
                     "No phishing indicators were strongly detected by the AI model or VirusTotal."
                 )
+
+            # =================================================
+            # THREAT ANALYSIS REPORT
+            # =================================================
 
             st.markdown("## 📄 Threat Analysis Report")
 
@@ -818,6 +772,8 @@ elif menu == "Scan URL / Text":
             else:
 
                 vt_result = "SAFE"
+
+            # FINAL DECISION
 
             if "phishing" in label.lower() and malicious > 0:
 
@@ -837,15 +793,16 @@ elif menu == "Scan URL / Text":
                 threat intelligence identified suspicious activity.
                 """
 
+            
             elif "phishing" in label.lower() and malicious == 0:
 
-                final_status = "SAFE (False Positive Detected)"
+                 final_status = "SAFE (False Positive Detected)"
 
-                recommendation = """
-                The AI model incorrectly flagged this URL as phishing,
-                but VirusTotal confirmed that the URL appears safe.
-                This may indicate a false positive prediction from the AI model.
-                """
+                 recommendation = """
+                 The AI model incorrectly flagged this URL as phishing,
+                 but VirusTotal confirmed that the URL appears safe.
+                 This may indicate a false positive prediction from the AI model.
+                 """
 
             else:
 
@@ -857,12 +814,14 @@ elif menu == "Scan URL / Text":
                 """
 
             report_df = pd.DataFrame({
+
                 "Detection Component": [
                     "AI Model Prediction",
                     "VirusTotal Reputation",
                     "AI Confidence Score",
                     "Final Threat Status"
                 ],
+
                 "Result": [
                     ai_result,
                     vt_result,
@@ -881,209 +840,6 @@ elif menu == "Scan URL / Text":
 
             st.info(recommendation)
 
-# =====================================================
-# USER MANUAL PAGE
-# =====================================================
-
-elif menu == "User Manual":
-
-    st.title("📘 User Manual")
-
-    st.markdown(
-        """
-        This user manual provides guidance on how to navigate and use the
-        AI-Enhanced Server Access Log Monitoring Dashboard for phishing
-        detection and cybersecurity monitoring activities.
-        """
-    )
-
-    st.divider()
-
-    # =================================================
-    # DASHBOARD OVERVIEW
-    # =================================================
-
-    with st.expander("1️⃣ Dashboard Overview", expanded=True):
-
-        st.markdown(
-            """
-            The dashboard provides real-time cybersecurity monitoring and
-            phishing detection analytics using AI and external threat
-            intelligence integration.
-
-            Users can:
-
-            - Monitor suspicious server activities
-            - Analyze phishing-related threats
-            - View security analytics visualizations
-            - Scan suspicious URLs or text
-            - Download suspicious log reports
-            """
-        )
-
-    # =================================================
-    # SIDEBAR NAVIGATION
-    # =================================================
-
-    with st.expander("2️⃣ Sidebar Navigation"):
-
-        st.markdown(
-            """
-            ### 📊 Dashboard
-            Displays cybersecurity analytics, threat visualizations,
-            suspicious activities, and monitoring information.
-
-            ### 🔍 Scan URL / Text
-            Allows users to analyze suspicious URLs or phishing-related
-            messages using AI and VirusTotal integration.
-
-            ### 🎣 Phishing Related Insights
-            Provides cybersecurity awareness information and phishing
-            prevention references.
-
-            ### 📘 User Manual
-            Displays guidance and instructions for using the platform.
-
-            ### ℹ️ About
-            Provides project background, objectives, technologies used,
-            and system features.
-            """
-        )
-
-    # =================================================
-    # FILTER GUIDE
-    # =================================================
-
-    with st.expander("3️⃣ How to Use Dashboard Filters"):
-
-        st.markdown(
-            """
-            The dashboard filters allow users to customize the displayed
-            analytics based on selected criteria.
-
-            ### Threat Severity Filter
-            Filters logs based on:
-            - suspicious
-            - malicious
-            - safe
-
-            ### Network Protocol Filter
-            Filters logs according to protocol types such as:
-            - HTTP
-            - HTTPS
-            - SSH
-            - FTP
-
-            ### Log Source Filter
-            Filters logs according to security log sources.
-
-            Users may select multiple filter options simultaneously
-            to perform deeper cybersecurity analysis.
-            """
-        )
-
-    # =================================================
-    # SCANNER GUIDE
-    # =================================================
-
-    with st.expander("4️⃣ How to Use AI Threat Scanner"):
-
-        st.markdown(
-            """
-            The AI Threat Scanner allows users to analyze suspicious URLs
-            or phishing-related messages.
-
-            ### Steps to Use:
-
-            1. Navigate to **Scan URL / Text**
-            2. Enter suspicious URL or phishing-related message
-            3. Click **Analyze Threat**
-            4. Review:
-               - AI Model Prediction
-               - VirusTotal Analysis
-               - Final Security Verdict
-               - Threat Analysis Report
-
-            ### Example Inputs:
-
-            - https://example-login-security.com
-            - Your account has been suspended. Click here to verify.
-            """
-        )
-
-    # =================================================
-    # UNDERSTANDING RESULTS
-    # =================================================
-
-    with st.expander("5️⃣ Understanding Detection Results"):
-
-        st.markdown(
-            """
-            ### 🤖 AI Model Prediction
-            The AI model analyzes phishing-related patterns from
-            URLs or text inputs.
-
-            ### 🌐 VirusTotal Analysis
-            VirusTotal checks the URL reputation using external
-            cybersecurity threat intelligence databases.
-
-            ### 🛡️ Final Security Verdict
-            Combines AI prediction and VirusTotal analysis to
-            provide the final phishing risk assessment.
-
-            ### 📄 Threat Analysis Report
-            Summarizes:
-            - AI detection result
-            - VirusTotal reputation result
-            - Confidence score
-            - Final threat status
-            """
-        )
-
-    # =================================================
-    # EXPORT FEATURES
-    # =================================================
-
-    with st.expander("6️⃣ Exporting Reports and Logs"):
-
-        st.markdown(
-            """
-            Users can export cybersecurity monitoring results directly
-            from the dashboard.
-
-            ### 📥 Download Suspicious Logs CSV
-            Downloads suspicious and malicious log records into CSV format.
-
-            ### 📄 Download Dashboard Summary Report
-            Downloads summarized dashboard analytics report including:
-            - Total logs
-            - Suspicious logs
-            - Malicious logs
-            - Blocked requests
-            """
-        )
-
-    # =================================================
-    # IMPORTANT NOTES
-    # =================================================
-
-    with st.expander("7️⃣ Important Notes"):
-
-        st.warning(
-            """
-            The AI phishing detection model may occasionally produce
-            false positive predictions. Therefore, VirusTotal integration
-            is used as additional external threat validation to improve
-            phishing analysis reliability.
-            """
-        )
-
-        st.info(
-            """
-            This platform is developed for cybersecurity monitoring,
-            phishing detection analysis, and educational awareness purposes.
-            """
-        )
 
 # =====================================================
 # ABOUT PAGE
@@ -1128,6 +884,10 @@ elif menu == "About":
     </style>
     """, unsafe_allow_html=True)
 
+    # =================================================
+    # FIRST ROW
+    # =================================================
+
     col1, col2 = st.columns(2)
 
     with col1:
@@ -1168,6 +928,10 @@ elif menu == "About":
 
     st.markdown("<br>", unsafe_allow_html=True)
 
+    # =================================================
+    # SECOND ROW
+    # =================================================
+
     col3, col4 = st.columns(2)
 
     with col3:
@@ -1180,7 +944,7 @@ elif menu == "About":
         </div>
 
         <div class="info-text">
-        The dashboard is developed using Streamlit, Python, Pandas, Plotly, fine-tuned BERT model+VirusTotal API to support phishing detection and security analytics visualization.
+        The dashboard is developed using Streamlit, Python, Pandas, Plotly, fine-tuned BERT model+VirusTotal API to support phishing detection  and security analytics visualization.
         </div>
 
         </div>
@@ -1254,6 +1018,10 @@ elif menu == "Phishing Related Insights":
     </style>
     """, unsafe_allow_html=True)
 
+    # =================================================
+    # FIRST ROW
+    # =================================================
+
     col1, col2 = st.columns(2)
 
     with col1:
@@ -1307,6 +1075,10 @@ elif menu == "Phishing Related Insights":
         """, unsafe_allow_html=True)
 
     st.markdown("<br>", unsafe_allow_html=True)
+
+    # =================================================
+    # SECOND ROW
+    # =================================================
 
     col3, col4 = st.columns(2)
 
@@ -1365,4 +1137,5 @@ elif menu == "Phishing Related Insights":
     st.info(
         "📌 This section provides cybersecurity awareness information and phishing-related monitoring insights to improve phishing detection understanding."
     )
+
 
