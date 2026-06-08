@@ -182,10 +182,66 @@ h1, h2, h3 {
 
 st.sidebar.image("logo.png", width=170)
 
-st.sidebar.markdown("""
-<h1 style='color:white; margin-bottom:0;'>WELCOME TO PhishLog!</h1>
-<p style='color:#00C2FF;'>AI-Enhanced Monitoring</p>
-""", unsafe_allow_html=True)
+st.sidebar.markdown(
+    """
+    <style>
+
+    .welcome-text {
+        color: white;
+        font-size: 18px;
+        font-weight: 700;
+        letter-spacing: 1px;
+        margin-bottom: -8px;
+        text-align: center;
+    }
+
+    .logo-text {
+        font-size: 42px;
+        font-family: cursive;
+        font-weight: bold;
+        text-align: center;
+
+        background: linear-gradient(
+            90deg,
+            #00C2FF,
+            #7B68EE,
+            #C800FF
+        );
+
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+
+        text-shadow:
+            0px 0px 8px rgba(0,194,255,0.4),
+            0px 0px 14px rgba(200,0,255,0.3);
+
+        margin-bottom: 5px;
+    }
+
+    .tagline-text {
+        color: #7FDBFF;
+        font-size: 14px;
+        text-align: center;
+        margin-bottom: 10px;
+    }
+
+    </style>
+
+    <div class="welcome-text">
+        WELCOME TO
+    </div>
+
+    <div class="logo-text">
+        PhishLog!
+    </div>
+
+    <div class="tagline-text">
+        AI-Enhanced Monitoring
+    </div>
+
+    """,
+    unsafe_allow_html=True
+)
 
 menu = st.sidebar.radio(
     "Navigation",
@@ -488,7 +544,7 @@ if menu == "Dashboard":
             use_container_width=True
         )
 
-    st.divider()
+        st.divider()
 
     # =================================================
     # THREAT ACTION DISTRIBUTION
@@ -496,39 +552,99 @@ if menu == "Dashboard":
 
     st.markdown("## 🚦 Threat Action Distribution")
 
-    action_counts = dashboard_df[
-        "action"
-    ].value_counts()
+    action_counts = dashboard_df["action"].value_counts()
 
-    action_df = pd.DataFrame({
-        "Action": action_counts.index,
-        "Count": action_counts.values
-    })
+    blocked_count = action_counts.get("blocked", 0)
+    allowed_count = action_counts.get("allowed", 0)
 
-    fig_action = px.pie(
-        action_df,
-        values="Count",
-        names="Action",
-        hole=0.5,
-        title="Blocked vs Allowed Requests",
-        color="Action",
-        color_discrete_map={
-            "blocked": "#2ECC71",
-            "allowed": "#FFA500"
-        }
-    )
+    total_actions = blocked_count + allowed_count
 
-    fig_action.update_layout(
-        paper_bgcolor="#0D2347",
-        plot_bgcolor="#0D2347",
-        font_color="white",
-        height=350,
-        legend_title="Request Action"
-    )
+    if total_actions > 0:
 
-    st.plotly_chart(
-        fig_action,
-        use_container_width=True
+        blocked_percent = (blocked_count / total_actions) * 100
+        allowed_percent = (allowed_count / total_actions) * 100
+
+    else:
+
+        blocked_percent = 0
+        allowed_percent = 0
+
+    st.markdown(
+        f"""
+        <div style="
+            background:#0D2347;
+            padding:22px;
+            border-radius:18px;
+            border:1px solid rgba(255,255,255,0.08);
+            margin-top:10px;
+        ">
+
+            <h4 style="color:white; margin-bottom:18px;">
+                Blocked vs Allowed Request Status
+            </h4>
+
+            <div style="
+                display:flex;
+                justify-content:space-between;
+                margin-bottom:8px;
+                color:white;
+                font-weight:600;
+            ">
+                <span>✅ Blocked Requests: {blocked_count:,} ({blocked_percent:.1f}%)</span>
+                <span>⚠️ Allowed Requests: {allowed_count:,} ({allowed_percent:.1f}%)</span>
+            </div>
+
+            <div style="
+                width:100%;
+                height:30px;
+                background:#071B34;
+                border-radius:20px;
+                overflow:hidden;
+                border:1px solid rgba(255,255,255,0.12);
+            ">
+
+                <div style="
+                    width:{blocked_percent}%;
+                    height:100%;
+                    background:linear-gradient(90deg, #2ECC71, #00C2FF);
+                    float:left;
+                    text-align:center;
+                    color:white;
+                    font-size:13px;
+                    font-weight:bold;
+                    line-height:30px;
+                ">
+                    Blocked
+                </div>
+
+                <div style="
+                    width:{allowed_percent}%;
+                    height:100%;
+                    background:linear-gradient(90deg, #FFA500, #FFCC00);
+                    float:left;
+                    text-align:center;
+                    color:#071B34;
+                    font-size:13px;
+                    font-weight:bold;
+                    line-height:30px;
+                ">
+                    Allowed
+                </div>
+
+            </div>
+
+            <p style="
+                color:#B8D8FF;
+                font-size:14px;
+                margin-top:14px;
+                margin-bottom:0;
+            ">
+                This section compares how many suspicious requests were blocked by the security system and how many were still allowed.
+            </p>
+
+        </div>
+        """,
+        unsafe_allow_html=True
     )
 
     st.divider()
