@@ -544,7 +544,8 @@ if menu == "Dashboard":
             use_container_width=True
         )
 
-        st.divider()
+
+    st.divider()
 
     # =================================================
     # THREAT ACTION DISTRIBUTION
@@ -590,8 +591,19 @@ if menu == "Dashboard":
                 color:white;
                 font-weight:600;
             ">
-                <span>✅ Blocked Requests: {blocked_count:,} ({blocked_percent:.1f}%)</span>
-                <span>⚠️ Allowed Requests: {allowed_count:,} ({allowed_percent:.1f}%)</span>
+
+                <span>
+                    ✅ Blocked Requests:
+                    {blocked_count:,}
+                    ({blocked_percent:.1f}%)
+                </span>
+
+                <span>
+                    ⚠️ Allowed Requests:
+                    {allowed_count:,}
+                    ({allowed_percent:.1f}%)
+                </span>
+
             </div>
 
             <div style="
@@ -601,13 +613,13 @@ if menu == "Dashboard":
                 border-radius:20px;
                 overflow:hidden;
                 border:1px solid rgba(255,255,255,0.12);
+                display:flex;
             ">
 
                 <div style="
                     width:{blocked_percent}%;
                     height:100%;
                     background:linear-gradient(90deg, #2ECC71, #00C2FF);
-                    float:left;
                     text-align:center;
                     color:white;
                     font-size:13px;
@@ -621,7 +633,6 @@ if menu == "Dashboard":
                     width:{allowed_percent}%;
                     height:100%;
                     background:linear-gradient(90deg, #FFA500, #FFCC00);
-                    float:left;
                     text-align:center;
                     color:#071B34;
                     font-size:13px;
@@ -639,7 +650,8 @@ if menu == "Dashboard":
                 margin-top:14px;
                 margin-bottom:0;
             ">
-                This section compares how many suspicious requests were blocked by the security system and how many were still allowed.
+                This section compares how many suspicious requests were blocked
+                by the security system and how many were still allowed.
             </p>
 
         </div>
