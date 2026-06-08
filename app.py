@@ -236,7 +236,7 @@ st.sidebar.markdown(
     </div>
 
     <div class="tagline-text">
-        AI-Enhanced Monitoring
+        Gen-AI Enhanced Monitoring
     </div>
 
     """,
@@ -570,93 +570,98 @@ if menu == "Dashboard":
         blocked_percent = 0
         allowed_percent = 0
 
-    st.markdown(
-        f"""
+    threat_action_html = f"""
+    <div style="
+        background:#0D2347;
+        padding:22px;
+        border-radius:18px;
+        border:1px solid rgba(255,255,255,0.08);
+        margin-top:10px;
+        font-family:sans-serif;
+    ">
+
+        <h3 style="
+            color:white;
+            margin-bottom:20px;
+        ">
+            Blocked vs Allowed Request Status
+        </h3>
+
         <div style="
-            background:#0D2347;
-            padding:22px;
-            border-radius:18px;
-            border:1px solid rgba(255,255,255,0.08);
-            margin-top:10px;
+            display:flex;
+            justify-content:space-between;
+            margin-bottom:10px;
+            color:white;
+            font-weight:600;
         ">
 
-            <h4 style="color:white; margin-bottom:18px;">
-                Blocked vs Allowed Request Status
-            </h4>
+            <span>
+                ✅ Blocked Requests:
+                {blocked_count:,}
+                ({blocked_percent:.1f}%)
+            </span>
 
-            <div style="
-                display:flex;
-                justify-content:space-between;
-                margin-bottom:8px;
-                color:white;
-                font-weight:600;
-            ">
-
-                <span>
-                    ✅ Blocked Requests:
-                    {blocked_count:,}
-                    ({blocked_percent:.1f}%)
-                </span>
-
-                <span>
-                    ⚠️ Allowed Requests:
-                    {allowed_count:,}
-                    ({allowed_percent:.1f}%)
-                </span>
-
-            </div>
-
-            <div style="
-                width:100%;
-                height:30px;
-                background:#071B34;
-                border-radius:20px;
-                overflow:hidden;
-                border:1px solid rgba(255,255,255,0.12);
-                display:flex;
-            ">
-
-                <div style="
-                    width:{blocked_percent}%;
-                    height:100%;
-                    background:linear-gradient(90deg, #2ECC71, #00C2FF);
-                    text-align:center;
-                    color:white;
-                    font-size:13px;
-                    font-weight:bold;
-                    line-height:30px;
-                ">
-                    Blocked
-                </div>
-
-                <div style="
-                    width:{allowed_percent}%;
-                    height:100%;
-                    background:linear-gradient(90deg, #FFA500, #FFCC00);
-                    text-align:center;
-                    color:#071B34;
-                    font-size:13px;
-                    font-weight:bold;
-                    line-height:30px;
-                ">
-                    Allowed
-                </div>
-
-            </div>
-
-            <p style="
-                color:#B8D8FF;
-                font-size:14px;
-                margin-top:14px;
-                margin-bottom:0;
-            ">
-                This section compares how many suspicious requests were blocked
-                by the security system and how many were still allowed.
-            </p>
+            <span>
+                ⚠️ Allowed Requests:
+                {allowed_count:,}
+                ({allowed_percent:.1f}%)
+            </span>
 
         </div>
-        """,
-        unsafe_allow_html=True
+
+        <div style="
+            width:100%;
+            height:32px;
+            background:#071B34;
+            border-radius:20px;
+            overflow:hidden;
+            display:flex;
+            border:1px solid rgba(255,255,255,0.12);
+        ">
+
+            <div style="
+                width:{blocked_percent}%;
+                background:linear-gradient(90deg,#2ECC71,#00C2FF);
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                color:white;
+                font-size:13px;
+                font-weight:bold;
+            ">
+                Blocked
+            </div>
+
+            <div style="
+                width:{allowed_percent}%;
+                background:linear-gradient(90deg,#FFA500,#FFCC00);
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                color:#071B34;
+                font-size:13px;
+                font-weight:bold;
+            ">
+                Allowed
+            </div>
+
+        </div>
+
+        <p style="
+            color:#B8D8FF;
+            margin-top:15px;
+            font-size:14px;
+        ">
+            This section compares how many suspicious requests were blocked
+            by the security system and how many were still allowed.
+        </p>
+
+    </div>
+    """
+
+    st.components.v1.html(
+        threat_action_html,
+        height=230
     )
 
     st.divider()
@@ -1021,7 +1026,7 @@ elif menu == "User Manual":
     st.markdown(
         """
         This user manual provides guidance on how to navigate and use the
-        AI-Enhanced Server Access Log Monitoring Dashboard for phishing
+        Gen-AI Enhanced Server Access Log Monitoring Dashboard for phishing
         detection and cybersecurity monitoring activities.
         """
     )
@@ -1070,7 +1075,7 @@ elif menu == "User Manual":
             st.markdown("""
             <div class="manual-box">
                 <div class="manual-title">📊 Dashboard Page</div>
-                The main page displays security analytics from server access logs.
+                The main dashboard provides real-time cybersecurity monitoring, phishing detection analytics, and threat activity visualization using server access logs.
             </div>
 
             <div class="manual-box">
@@ -1082,11 +1087,19 @@ elif menu == "User Manual":
                 <div class="manual-title">📌 KPI Cards</div>
                 Shows total logs, suspicious logs, malicious logs, and blocked requests.
             </div>
+
+            <div class="manual-box">
+                <div class="manual-title">🚦 Threat Action Distribution</div>
+                Displays the comparison between blocked and allowed requests using a dynamic progress visualization.
+                The section automatically updates based on selected dashboard filters.
+            </div>
             """, unsafe_allow_html=True)
 
         with col2:
 
             st.markdown("""
+            <div class="arrow">➡️</div>
+            <br><br>
             <div class="arrow">➡️</div>
             <br><br>
             <div class="arrow">➡️</div>
@@ -1109,7 +1122,7 @@ elif menu == "User Manual":
 
             <div class="manual-box">
                 <div class="manual-title">🛡️ Prescriptive Analytics</div>
-                Provides recommended actions such as reviewing malicious logs, monitoring unusual access, and updating firewall or IDS rules.
+                Provides cybersecurity recommendations and mitigation strategies based on detected suspicious activities and monitoring results.
             </div>
 
             <div class="manual-box">
