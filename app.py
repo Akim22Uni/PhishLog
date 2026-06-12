@@ -1821,24 +1821,22 @@ elif menu == "About":
     # =====================================================
     # DEVELOPER INFORMATION
     # =====================================================
-  
+
     st.markdown("<br>", unsafe_allow_html=True)
 
-    st.markdown("""
-    <div class="info-box">
-
-        <div class="info-title">
-            👨‍💻 Developer Information
-        </div>
-
-        <div class="info-text">
-            <b>Name:</b> Aqmal Hakim Bin Zulkifli<br><br>
-            <b>No. Matrix:</b> 2023449352<br><br>
-            <b>Email:</b> 2023449352@student.uitm.edu.my
-        </div>
-
+    st.markdown(
+        """
+<div class="info-box">
+    <div class="info-title">👨‍💻 Developer Information</div>
+    <div class="info-text">
+        <b>Name:</b> Aqmal Hakim Bin Zulkifli<br><br>
+        <b>No. Matrix:</b> 2023449352<br><br>
+        <b>Email:</b> 2023449352@student.uitm.edu.my
     </div>
-    """, unsafe_allow_html=True)
+</div>
+        """,
+        unsafe_allow_html=True
+    )
 
 # =====================================================
 # PHISHING RELATED INSIGHTS
