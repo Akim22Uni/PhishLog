@@ -1999,7 +1999,7 @@ elif menu == "Phishing Related Insights":
     st.markdown("<br>", unsafe_allow_html=True)
 
     st.info(
-        "📌 This section provides cybersecurity awareness information and phishing-related monitoring insights to improve phishing detection understanding."
+        "📌 This section provides cybersecurity awareness information and phishing-related and log monitoring insights to improve phishing detection and log monitoring understanding."
     )
 
 # =====================================================
