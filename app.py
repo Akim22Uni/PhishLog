@@ -1195,7 +1195,8 @@ elif menu == "User Manual":
 
     with st.expander("1️⃣ Dashboard Visual Guide", expanded=True):
 
-        st.markdown(textwrap.dedent("""
+        st.components.v1.html(
+            textwrap.dedent("""
         <style>
 
         .guide-wrapper {
@@ -1532,7 +1533,10 @@ elif menu == "User Manual":
             </div>
 
         </div>
-        """), unsafe_allow_html=True)
+        """),
+            height=1300,
+            scrolling=True
+        )
 
     # =================================================
     # SIDEBAR NAVIGATION
