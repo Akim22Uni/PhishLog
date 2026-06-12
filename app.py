@@ -7,6 +7,7 @@ import requests
 import base64
 from datetime import datetime
 import re
+import textwrap
 
 # =====================================================
 # PAGE CONFIG
@@ -1194,7 +1195,7 @@ elif menu == "User Manual":
 
     with st.expander("1️⃣ Dashboard Visual Guide", expanded=True):
 
-        st.markdown("""
+        st.markdown(textwrap.dedent("""
         <style>
 
         .guide-wrapper {
@@ -1531,7 +1532,7 @@ elif menu == "User Manual":
             </div>
 
         </div>
-        """, unsafe_allow_html=True)
+        """), unsafe_allow_html=True)
 
     # =================================================
     # SIDEBAR NAVIGATION
