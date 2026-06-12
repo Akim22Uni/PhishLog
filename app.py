@@ -782,7 +782,6 @@ if menu == "Dashboard":
 
 </div>
 """
-
             st.components.v1.html(
                 threat_action_html,
                 height=230
@@ -1757,7 +1756,7 @@ elif menu == "About":
         </div>
 
         <div class="info-text">
-        This phishing detection dashboard is developed to help users monitor suspicious server access logs and identify cyber threats related activities through centralized cybersecurity analytics and AI-powered monitoring features.
+        This phishing detection dashboard is developed to help users monitor suspicious server access logs and identify phishing related activities through centralized phishing detection analytics and AI-powered monitoring features.
         </div>
 
         </div>
@@ -1774,10 +1773,10 @@ elif menu == "About":
 
         <div class="info-text">
         • Real-time log monitoring<br>
-        • Threat visualization dashboard<br>
-        • URL and phishing message scanning using HF+VirusTotal API<br>
-        • Security analytics and monitoring<br>
-        • Interactive cybersecurity insights<br>
+        • Visualization of suspicious log monitoring dashboard<br>
+        • URL and phishing message scanning using Hugging Face+VirusTotal API<br>
+        • Phishing detection analytics and log monitoring<br>
+        • Interactive phishing insights<br>
         </div>
 
         </div>
@@ -1797,7 +1796,7 @@ elif menu == "About":
         </div>
 
         <div class="info-text">
-        The dashboard is developed using Streamlit, Python, Pandas, Plotly, fine-tuned BERT model+VirusTotal API to support phishing detection and security analytics visualization.
+        The dashboard is developed using Streamlit, Python, Pandas, Plotly, fine-tuned BERT model+VirusTotal API to support phishing detection and log monitoring visualization.
         </div>
 
         </div>
@@ -1818,6 +1817,44 @@ elif menu == "About":
 
         </div>
         """, unsafe_allow_html=True)
+
+    # =====================================================
+    # DEVELOPER INFORMATION
+    # =====================================================
+
+    st.markdown("## 👨‍💻 Developer Information")
+
+    st.markdown(
+        """
+        <div style="
+            background:#0D2347;
+            padding:25px;
+            border-radius:18px;
+            border:1px solid rgba(255,255,255,0.10);
+            border-left:5px solid #00C2FF;
+            margin-top:10px;
+        ">
+
+        <h3 style="color:#00C2FF; margin-bottom:15px;">
+            Developer Details
+        </h3>
+
+        <p style="font-size:16px; color:white;">
+            <b>Name:</b> Aqmal Hakim Bin Zulkifli
+        </p>
+
+        <p style="font-size:16px; color:white;">
+            <b>No. Matrix:</b> 2023449352
+        </p>
+
+        <p style="font-size:16px; color:white;">
+            <b>Email:</b> 2023449352@student.uitm.edu.my
+        </p>
+
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
 
 # =====================================================
 # PHISHING RELATED INSIGHTS
@@ -1983,3 +2020,25 @@ elif menu == "Phishing Related Insights":
         "📌 This section provides cybersecurity awareness information and phishing-related monitoring insights to improve phishing detection understanding."
     )
 
+# =====================================================
+# FOOTER
+# =====================================================
+
+st.markdown(
+    """
+    <hr style="margin-top:50px; border:1px solid rgba(255,255,255,0.08);">
+
+    <div style="
+        text-align:center;
+        padding:15px;
+        color:#7FDBFF;
+        font-size:14px;
+    ">
+
+        © 2026 PhishLog Security Dashboard <br>
+        Developed by Aqmal Hakim Bin Zulkifli
+
+    </div>
+    """,
+    unsafe_allow_html=True
+)
