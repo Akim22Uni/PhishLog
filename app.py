@@ -752,66 +752,39 @@ if menu == "Dashboard":
                 blocked_percent = 0
                 allowed_percent = 0
 
-            st.markdown(
-                f"""
-                <div style="
-                    background:#0D2347;
-                    padding:18px;
-                    border-radius:18px;
-                    border:1px solid rgba(255,255,255,0.08);
-                ">
+            threat_action_html = f"""
+<div style="background:#0D2347; padding:18px; border-radius:18px; border:1px solid rgba(255,255,255,0.08); font-family:Segoe UI, sans-serif;">
 
-                    <p style="color:white; font-weight:600;">
-                        ✅ Blocked Requests: {blocked_count:,} ({blocked_percent:.1f}%)
-                    </p>
+    <p style="color:white; font-weight:600; margin-bottom:10px;">
+        ✅ Blocked Requests: {blocked_count:,} ({blocked_percent:.1f}%)
+    </p>
 
-                    <p style="color:white; font-weight:600;">
-                        ⚠️ Allowed Requests: {allowed_count:,} ({allowed_percent:.1f}%)
-                    </p>
+    <p style="color:white; font-weight:600; margin-bottom:14px;">
+        ⚠️ Allowed Requests: {allowed_count:,} ({allowed_percent:.1f}%)
+    </p>
 
-                    <div style="
-                        width:100%;
-                        height:30px;
-                        background:#071B34;
-                        border-radius:20px;
-                        overflow:hidden;
-                        display:flex;
-                        border:1px solid rgba(255,255,255,0.12);
-                    ">
+    <div style="width:100%; height:30px; background:#071B34; border-radius:20px; overflow:hidden; display:flex; border:1px solid rgba(255,255,255,0.12);">
 
-                        <div style="
-                            width:{blocked_percent}%;
-                            background:linear-gradient(90deg,#2ECC71,#00C2FF);
-                            color:white;
-                            text-align:center;
-                            line-height:30px;
-                            font-weight:bold;
-                            font-size:12px;
-                        ">
-                            Blocked
-                        </div>
+        <div style="width:{blocked_percent}%; background:linear-gradient(90deg,#2ECC71,#00C2FF); color:white; text-align:center; line-height:30px; font-weight:bold; font-size:12px;">
+            Blocked
+        </div>
 
-                        <div style="
-                            width:{allowed_percent}%;
-                            background:linear-gradient(90deg,#FFA500,#FFCC00);
-                            color:#071B34;
-                            text-align:center;
-                            line-height:30px;
-                            font-weight:bold;
-                            font-size:12px;
-                        ">
-                            Allowed
-                        </div>
+        <div style="width:{allowed_percent}%; background:linear-gradient(90deg,#FFA500,#FFCC00); color:#071B34; text-align:center; line-height:30px; font-weight:bold; font-size:12px;">
+            Allowed
+        </div>
 
-                    </div>
+    </div>
 
-                    <p style="color:#B8D8FF; margin-top:15px; font-size:14px;">
-                        Compares blocked and allowed requests based on the selected filters.
-                    </p>
+    <p style="color:#B8D8FF; margin-top:15px; font-size:14px;">
+        Compares blocked and allowed requests based on the selected filters.
+    </p>
 
-                </div>
-                """,
-                unsafe_allow_html=True
+</div>
+"""
+
+            st.components.v1.html(
+                threat_action_html,
+                height=230
             )
 
     # =================================================
