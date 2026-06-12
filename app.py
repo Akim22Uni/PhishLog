@@ -1189,7 +1189,7 @@ elif menu == "User Manual":
     st.divider()
 
     # =================================================
-    # DASHBOARD OVERVIEW
+    # DASHBOARD VISUAL GUIDE
     # =================================================
 
     with st.expander("1️⃣ Dashboard Visual Guide", expanded=True):
@@ -1197,148 +1197,341 @@ elif menu == "User Manual":
         st.markdown("""
         <style>
 
-        .manual-box {
-            background: #0D2347;
-            border: 1px solid rgba(255,255,255,0.12);
-            border-radius: 18px;
-            padding: 20px;
+        .guide-wrapper {
+            background: linear-gradient(145deg, #071B34, #0D2347);
+            border: 1px solid rgba(0,194,255,0.25);
+            border-radius: 22px;
+            padding: 26px;
             color: white;
-            margin-bottom: 15px;
+            box-shadow: 0px 8px 24px rgba(0,0,0,0.25);
         }
 
-        .manual-title {
-            color: #00C2FF;
-            font-size: 22px;
-            font-weight: bold;
-            margin-bottom: 10px;
+        .guide-intro {
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(0,194,255,0.35);
+            border-radius: 16px;
+            padding: 18px 22px;
+            margin-bottom: 24px;
+            color: #D8ECFF;
+            font-size: 15px;
+            line-height: 1.6;
         }
 
-        .arrow {
+        .guide-title {
+            text-align: center;
             color: #00C2FF;
-            font-size: 26px;
-            font-weight: bold;
+            font-size: 30px;
+            font-weight: 800;
+            margin-bottom: 22px;
+        }
+
+        .guide-board {
+            position: relative;
+            background: #0B2447;
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 20px;
+            padding: 22px;
+            margin-bottom: 22px;
+        }
+
+        .guide-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 14px;
+            margin-bottom: 16px;
+        }
+
+        .guide-chart-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+            margin-bottom: 16px;
+        }
+
+        .guide-bottom-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 14px;
+            margin-bottom: 16px;
+        }
+
+        .guide-final-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+        }
+
+        .mock-card {
+            background: linear-gradient(145deg, #0D2347, #102B56);
+            border: 1px solid rgba(0,194,255,0.22);
+            border-radius: 16px;
+            padding: 16px;
+            min-height: 100px;
+            box-shadow: 0px 4px 12px rgba(0,0,0,0.25);
+            position: relative;
+        }
+
+        .mock-card:hover {
+            border: 1px solid #00C2FF;
+            box-shadow: 0px 8px 22px rgba(0,194,255,0.25);
+            transform: translateY(-4px);
+            transition: 0.25s ease-in-out;
+        }
+
+        .mock-label {
+            color: #7FDBFF;
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .mock-value {
+            font-size: 28px;
+            font-weight: 800;
+            color: white;
+        }
+
+        .mock-mini {
+            height: 86px;
+            border-radius: 12px;
+            background:
+                linear-gradient(90deg, rgba(0,194,255,0.16), rgba(255,255,255,0.03)),
+                repeating-linear-gradient(
+                    90deg,
+                    rgba(255,255,255,0.08) 0px,
+                    rgba(255,255,255,0.08) 1px,
+                    transparent 1px,
+                    transparent 38px
+                );
+            border: 1px solid rgba(255,255,255,0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #B8D8FF;
+            font-size: 13px;
+            font-weight: 600;
             text-align: center;
         }
 
+        .guide-number {
+            position: absolute;
+            top: -12px;
+            left: -10px;
+            background: #00C2FF;
+            color: #071B34;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            box-shadow: 0px 4px 12px rgba(0,194,255,0.4);
+        }
+
+        .guide-steps-title {
+            text-align: center;
+            color: #00C2FF;
+            font-size: 24px;
+            font-weight: 800;
+            margin: 20px 0px 16px 0px;
+        }
+
+        .guide-steps {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 14px;
+        }
+
+        .step-box {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(0,194,255,0.28);
+            border-radius: 16px;
+            padding: 16px;
+            min-height: 150px;
+        }
+
+        .step-no {
+            background: #00C2FF;
+            color: #071B34;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            margin-bottom: 10px;
+        }
+
+        .step-title {
+            color: white;
+            font-size: 15px;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .step-text {
+            color: #B8D8FF;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        @media (max-width: 900px) {
+            .guide-grid,
+            .guide-chart-grid,
+            .guide-bottom-grid,
+            .guide-final-grid,
+            .guide-steps {
+                grid-template-columns: 1fr;
+            }
+        }
+
         </style>
+
+        <div class="guide-wrapper">
+
+            <div class="guide-intro">
+                <b>ℹ️ Dashboard Overview:</b>
+                This visual guide explains the main components of the PhishLog dashboard.
+                Users can use this page to understand where to view filters, KPI cards,
+                diagnostic graphs, timeline patterns, recommendations, suspicious logs,
+                and export features.
+            </div>
+
+            <div class="guide-title">
+                🛡️ PhishLog Security Monitoring Dashboard Guide
+            </div>
+
+            <div class="guide-board">
+
+                <div class="mock-card" style="margin-bottom:16px;">
+                    <div class="guide-number">1</div>
+                    <div class="mock-label">🎛️ Dashboard Filters</div>
+                    <div class="mock-mini">
+                        Filter by threat severity, network protocol, and log source
+                    </div>
+                </div>
+
+                <div class="guide-grid">
+                    <div class="mock-card">
+                        <div class="guide-number">2</div>
+                        <div class="mock-label">Total Logs</div>
+                        <div class="mock-value">3,000</div>
+                    </div>
+
+                    <div class="mock-card">
+                        <div class="mock-label">Suspicious Logs</div>
+                        <div class="mock-value">2,251</div>
+                    </div>
+
+                    <div class="mock-card">
+                        <div class="mock-label">Malicious Logs</div>
+                        <div class="mock-value">749</div>
+                    </div>
+
+                    <div class="mock-card">
+                        <div class="mock-label">Blocked Requests</div>
+                        <div class="mock-value">1,503</div>
+                    </div>
+                </div>
+
+                <div class="guide-chart-grid">
+                    <div class="mock-card">
+                        <div class="guide-number">3</div>
+                        <div class="mock-label">Threat Severity Distribution</div>
+                        <div class="mock-mini">Shows suspicious, malicious, and safe traffic proportion</div>
+                    </div>
+
+                    <div class="mock-card">
+                        <div class="mock-label">Protocol Analysis</div>
+                        <div class="mock-mini">Compares protocol usage such as HTTP, HTTPS, SSH, and FTP</div>
+                    </div>
+
+                    <div class="mock-card">
+                        <div class="mock-label">Log Source Monitoring</div>
+                        <div class="mock-mini">Shows which log source contributes the most activity</div>
+                    </div>
+                </div>
+
+                <div class="guide-bottom-grid">
+                    <div class="mock-card">
+                        <div class="guide-number">4</div>
+                        <div class="mock-label">Threat Events Timeline</div>
+                        <div class="mock-mini">Displays threat activity trends over time to detect spikes</div>
+                    </div>
+
+                    <div class="mock-card">
+                        <div class="guide-number">5</div>
+                        <div class="mock-label">Threat Action Distribution</div>
+                        <div class="mock-mini">Compares blocked and allowed requests</div>
+                    </div>
+                </div>
+
+                <div class="guide-final-grid">
+                    <div class="mock-card">
+                        <div class="guide-number">6</div>
+                        <div class="mock-label">Prescriptive Analytics</div>
+                        <div class="mock-mini">Provides dynamic security recommendations</div>
+                    </div>
+
+                    <div class="mock-card">
+                        <div class="guide-number">7</div>
+                        <div class="mock-label">Recent Suspicious Logs</div>
+                        <div class="mock-mini">Shows the latest suspicious or malicious records</div>
+                    </div>
+
+                    <div class="mock-card">
+                        <div class="guide-number">8</div>
+                        <div class="mock-label">Export Reports</div>
+                        <div class="mock-mini">Download suspicious logs CSV or dashboard summary report</div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="guide-steps-title">
+                HOW TO USE THIS PAGE
+            </div>
+
+            <div class="guide-steps">
+
+                <div class="step-box">
+                    <div class="step-no">1</div>
+                    <div class="step-title">Apply Filters</div>
+                    <div class="step-text">
+                        Select threat severity, protocol, or log source to focus on specific cybersecurity activity.
+                    </div>
+                </div>
+
+                <div class="step-box">
+                    <div class="step-no">2</div>
+                    <div class="step-title">Review KPI Cards</div>
+                    <div class="step-text">
+                        Check total logs, suspicious logs, malicious logs, and blocked requests for quick monitoring.
+                    </div>
+                </div>
+
+                <div class="step-box">
+                    <div class="step-no">3</div>
+                    <div class="step-title">Analyze Graphs</div>
+                    <div class="step-text">
+                        Hover over the charts to view values and short explanations about each graph.
+                    </div>
+                </div>
+
+                <div class="step-box">
+                    <div class="step-no">4</div>
+                    <div class="step-title">Export Results</div>
+                    <div class="step-text">
+                        Download suspicious logs or a dashboard summary report for documentation and analysis.
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
         """, unsafe_allow_html=True)
-
-        col1, col2, col3 = st.columns([1.2, 0.3, 2])
-
-        with col1:
-
-            st.markdown("""
-            <div class="manual-box">
-                <div class="manual-title">📊 Dashboard Page</div>
-                The main dashboard provides real-time cybersecurity monitoring,
-                phishing detection analytics, and threat activity visualization
-                using server access logs.
-            </div>
-
-            <div class="manual-box">
-                <div class="manual-title">🎛️ Dashboard Filters</div>
-                Users can filter logs by threat severity, network protocol,
-                and log source. All dashboard cards and graphs update automatically
-                based on the selected filters.
-            </div>
-
-            <div class="manual-box">
-                <div class="manual-title">📌 KPI Cards</div>
-
-                <p>
-                    Displays key cybersecurity monitoring statistics including:
-                </p>
-
-                <p>
-                    🔵 <b>Total Logs</b> – Overall number of monitored server access logs.
-                </p>
-
-                <p>
-                    🟠 <b>Suspicious Logs</b> – Indicates potentially suspicious activities detected from server traffic.
-                </p>
-
-                <p>
-                    🔴 <b>Malicious Logs</b> – Represents high-risk or malicious activities identified during monitoring.
-                </p>
-
-                <p>
-                    🟢 <b>Blocked Requests</b> – Displays requests successfully blocked by the security monitoring system.
-                </p>
-
-                <br>
-
-                <b>KPI Color Indicators:</b>
-
-                <p>
-                    🔵 Blue – General monitoring information.
-                </p>
-
-                <p>
-                    🟠 Orange – Suspicious activity increase.
-                </p>
-
-                <p>
-                    🔴 Red – Malicious or high-risk activity increase.
-                </p>
-
-                <p>
-                    🟢 Green – Successful blocked or protected requests.
-                </p>
-
-                <p>
-                    The colored arrows help users quickly identify cybersecurity
-                    risk levels and monitoring status changes.
-                </p>
-            </div>
-
-            <div class="manual-box">
-                <div class="manual-title">🚦 Threat Action Distribution</div>
-                Displays the comparison between blocked and allowed requests
-                using a dynamic progress visualization. The section automatically
-                updates based on selected dashboard filters.
-            </div>
-            """, unsafe_allow_html=True)
-
-        with col2:
-
-            st.markdown("""
-            <div class="arrow">➡️</div>
-            <br><br>
-            <div class="arrow">➡️</div>
-            <br><br>
-            <div class="arrow">➡️</div>
-            <br><br>
-            <div class="arrow">➡️</div>
-            """, unsafe_allow_html=True)
-
-        with col3:
-
-            st.markdown("""
-            <div class="manual-box">
-                <div class="manual-title">🔍 Diagnostic Charts</div>
-                The charts explain threat severity, protocol usage,
-                and log source activities. Users can hover over each graph
-                to view a short explanation and the selected value.
-            </div>
-
-            <div class="manual-box">
-                <div class="manual-title">📈 Threat Timeline</div>
-                Displays threat activity trends over time to identify
-                suspicious spikes or unusual monitoring patterns.
-            </div>
-
-            <div class="manual-box">
-                <div class="manual-title">🛡️ Prescriptive Analytics</div>
-                Provides dynamic cybersecurity recommendations and mitigation
-                strategies based on the current filtered dashboard results.
-            </div>
-
-            <div class="manual-box">
-                <div class="manual-title">📥 Export Report</div>
-                Users can download suspicious logs and dashboard
-                summary reports for further analysis or documentation.
-            </div>
-            """, unsafe_allow_html=True)
 
     # =================================================
     # SIDEBAR NAVIGATION
