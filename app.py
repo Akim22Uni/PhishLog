@@ -129,34 +129,39 @@ section[data-testid="stSidebar"] {
 SIDEBAR NAVIGATION
 ================================================= */
 
-section[data-testid="stSidebar"] .stRadio label {
-    font-size: 20px !important;
-    font-weight: 500 !important;
-    min-height: 60px;
-    display: flex;
-    align-items: center;
-    padding: 12px 14px !important;
-    margin-bottom: 10px !important;
-    border-radius: 12px;
-    transition: 0.2s ease-in-out;
+section[data-testid="stSidebar"] .stRadio {
     width: 100% !important;
-    justify-content: flex-start !important;
+}
+
+section[data-testid="stSidebar"] [role="radiogroup"] {
+    width: 100% !important;
+    gap: 12px !important;
+}
+
+section[data-testid="stSidebar"] .stRadio label {
+    width: 100% !important;
+    min-height: 62px !important;
+    display: flex !important;
+    align-items: center !important;
+    padding: 14px 18px !important;
+    margin-bottom: 10px !important;
+    border-radius: 14px !important;
+    transition: 0.2s ease-in-out !important;
     white-space: normal !important;
 }
 
+section[data-testid="stSidebar"] .stRadio label p {
+    font-size: clamp(14px, 1.1vw, 20px) !important;
+    font-weight: 600 !important;
+    line-height: 1.3 !important;
+    white-space: normal !important;
+    word-break: normal !important;
+}
+
 section[data-testid="stSidebar"] .stRadio label:hover {
-    background-color: rgba(0,194,255,0.15);
-    border: 1px solid rgba(0,194,255,0.25);
-    cursor: pointer;
-}
-
-div[role="radiogroup"] {
-    gap: 10px;
-}
-
-section[data-testid="stSidebar"] .stRadio,
-section[data-testid="stSidebar"] [role="radiogroup"] {
-    width: 100% !important;
+    background-color: rgba(0,194,255,0.15) !important;
+    border: 1px solid rgba(0,194,255,0.25) !important;
+    cursor: pointer !important;
 }
 
 /* =================================================
