@@ -6,6 +6,7 @@ import plotly.express as px
 import requests
 import base64
 from datetime import datetime
+import re
 
 # =====================================================
 # PAGE CONFIG
@@ -76,6 +77,19 @@ def check_url_virustotal(url):
 
         return None, None
 
+
+# =====================================================
+# INPUT TYPE CHECKER
+# =====================================================
+
+def is_url_input(text):
+
+    url_pattern = re.compile(
+        r"^(https?://)?(www\.)?[a-zA-Z0-9-]+\.[a-zA-Z]{2,}.*$"
+    )
+
+    return bool(url_pattern.match(text.strip()))
+
 # =====================================================
 # LOAD DATA
 # =====================================================
@@ -110,7 +124,9 @@ section[data-testid="stSidebar"] {
     border-right: 1px solid rgba(255,255,255,0.08);
 }
 
-/* SIDEBAR NAVIGATION */
+/* =================================================
+SIDEBAR NAVIGATION
+================================================= */
 
 section[data-testid="stSidebar"] .stRadio label {
     font-size: 20px !important;
@@ -122,6 +138,9 @@ section[data-testid="stSidebar"] .stRadio label {
     margin-bottom: 10px !important;
     border-radius: 12px;
     transition: 0.2s ease-in-out;
+    width: 100% !important;
+    justify-content: flex-start !important;
+    white-space: normal !important;
 }
 
 section[data-testid="stSidebar"] .stRadio label:hover {
@@ -134,11 +153,24 @@ div[role="radiogroup"] {
     gap: 10px;
 }
 
+section[data-testid="stSidebar"] .stRadio,
+section[data-testid="stSidebar"] [role="radiogroup"] {
+    width: 100% !important;
+}
+
+/* =================================================
+MAIN CONTAINER
+================================================= */
+
 .block-container {
     padding-top: 1rem;
     padding-left: 2rem;
     padding-right: 2rem;
 }
+
+/* =================================================
+KPI CARDS
+================================================= */
 
 [data-testid="stMetric"] {
     background: #0D2347;
@@ -147,6 +179,10 @@ div[role="radiogroup"] {
     border: 1px solid rgba(255,255,255,0.08);
     border-left: 5px solid #00C2FF;
 }
+
+/* =================================================
+BUTTONS
+================================================= */
 
 div.stButton > button {
     background: linear-gradient(90deg, #00C2FF, #007BFF);
@@ -157,6 +193,10 @@ div.stButton > button {
     font-weight: bold;
 }
 
+/* =================================================
+TEXT AREA
+================================================= */
+
 textarea {
     background-color: #0D2347 !important;
     color: white !important;
@@ -164,13 +204,120 @@ textarea {
     border: 1px solid #1E4E8C !important;
 }
 
+/* =================================================
+DATAFRAME
+================================================= */
+
 [data-testid="stDataFrame"] {
     border-radius: 15px;
     overflow: hidden;
 }
 
+/* =================================================
+HEADINGS
+================================================= */
+
 h1, h2, h3 {
     color: white !important;
+}
+
+/* =================================================
+SIDEBAR RESPONSIVE FIX
+================================================= */
+
+section[data-testid="stSidebar"] img {
+    width: 80% !important;
+    max-width: none !important;
+    min-width: 120px !important;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+section[data-testid="stSidebar"] .stMarkdown {
+    width: 100% !important;
+}
+
+section[data-testid="stSidebar"] .welcome-text,
+section[data-testid="stSidebar"] .logo-text,
+section[data-testid="stSidebar"] .tagline-text {
+    width: 100% !important;
+    text-align: center !important;
+}
+
+/* =================================================
+MOBILE RESPONSIVE FIX
+================================================= */
+
+@media (max-width: 768px) {
+
+    .block-container {
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+    }
+
+    h1 {
+        font-size: 32px !important;
+    }
+
+    h2 {
+        font-size: 26px !important;
+    }
+
+    h3 {
+        font-size: 22px !important;
+    }
+
+    p, li, .info-text, .phish-text {
+        word-wrap: break-word !important;
+        overflow-wrap: break-word !important;
+    }
+
+    a {
+        word-break: break-word !important;
+        overflow-wrap: anywhere !important;
+    }
+
+    [data-testid="stHorizontalBlock"] {
+        flex-direction: column !important;
+    }
+
+    [data-testid="column"] {
+        width: 100% !important;
+        min-width: 100% !important;
+        flex: 1 1 100% !important;
+    }
+
+    .element-container {
+        width: 100% !important;
+    }
+
+    section[data-testid="stSidebar"] img {
+        width: 85% !important;
+        max-width: 160px !important;
+    }
+
+    .logo-text {
+        font-size: 34px !important;
+    }
+
+    .welcome-text {
+        font-size: 15px !important;
+    }
+
+    .tagline-text {
+        font-size: 12px !important;
+    }
+
+    [data-testid="stMetric"] {
+        margin-bottom: 15px !important;
+    }
+
+    .info-box,
+    .phish-box {
+        height: auto !important;
+        min-height: auto !important;
+    }
 }
 
 </style>
@@ -180,7 +327,7 @@ h1, h2, h3 {
 # SIDEBAR
 # =====================================================
 
-st.sidebar.image("logo.png", width=170)
+st.sidebar.image("logo.png", use_container_width=True)
 
 st.sidebar.markdown(
     """
@@ -386,28 +533,36 @@ if menu == "Dashboard":
         ]
     )
 
+    # =================================================
+    # KPI CARDS
+    # =================================================
+
     col1.metric(
         "Total Logs",
         f"{total_logs:,}",
-        delta=f"+{total_logs//15}"
+        delta=f"+{total_logs//15}",
+        delta_color="normal"
     )
 
     col2.metric(
         "Suspicious Logs",
         f"{suspicious_logs:,}",
-        delta=f"+{suspicious_logs//20}"
+        delta=f"+{suspicious_logs//20}",
+        delta_color="inverse"
     )
 
     col3.metric(
         "Malicious Logs",
         f"{malicious_logs:,}",
-        delta=f"+{malicious_logs//25}"
+        delta=f"+{malicious_logs//25}",
+        delta_color="inverse"
     )
 
     col4.metric(
         "Blocked Requests",
         f"{blocked_requests:,}",
-        delta=f"+{blocked_requests//18}"
+        delta=f"+{blocked_requests//18}",
+        delta_color="normal"
     )
 
     st.divider()
@@ -858,50 +1013,72 @@ elif menu == "Scan URL / Text":
             )
 
             vt_input = user_input.strip()
+            is_url = is_url_input(vt_input)
 
-            if not vt_input.startswith(("http://", "https://")):
+            # =================================================
+            # VIRUSTOTAL ANALYSIS FOR URL INPUT ONLY
+            # =================================================
 
-                vt_input = "https://" + vt_input
+            if is_url:
 
-            malicious, suspicious = check_url_virustotal(vt_input)
+                if not vt_input.startswith(("http://", "https://")):
 
-            if malicious is None:
+                    vt_input = "https://" + vt_input
 
-                malicious = 0
+                malicious, suspicious = check_url_virustotal(vt_input)
 
-            if suspicious is None:
+                if malicious is None:
 
-                suspicious = 0
+                    malicious = 0
 
-            st.markdown("## 🌐 VirusTotal Analysis")
+                if suspicious is None:
 
-            col1, col2 = st.columns(2)
+                    suspicious = 0
 
-            col1.metric(
-                "Malicious Detections",
-                malicious
-            )
+                st.markdown("## 🌐 VirusTotal Analysis")
 
-            col2.metric(
-                "Suspicious Detections",
-                suspicious
-            )
+                col1, col2 = st.columns(2)
 
-            if malicious > 0:
-
-                st.error(
-                    "🚨 VirusTotal detected this URL as malicious."
+                col1.metric(
+                    "Malicious Detections",
+                    malicious
                 )
+
+                col2.metric(
+                    "Suspicious Detections",
+                    suspicious
+                )
+
+                if malicious > 0:
+
+                    st.error(
+                        "🚨 VirusTotal detected this URL as malicious."
+                    )
+
+                else:
+
+                    st.success(
+                        "✅ VirusTotal indicates this URL is safe."
+                    )
 
             else:
 
-                st.success(
-                    "✅ VirusTotal indicates this URL is safe."
+                malicious = 0
+                suspicious = 0
+
+                st.markdown("## 📝 Text-Based Analysis")
+
+                st.info(
+                    "VirusTotal analysis was skipped because the input is a text message, not a URL. The result is based on the AI phishing detection model."
                 )
+
+            # =================================================
+            # FINAL SECURITY VERDICT
+            # =================================================
 
             st.markdown("## 🛡️ Final Security Verdict")
 
-            if "phishing" in label.lower() and malicious > 0:
+            if is_url and "phishing" in label.lower() and malicious > 0:
 
                 st.error(
                     "🚨 HIGH RISK PHISHING DETECTED"
@@ -911,7 +1088,7 @@ elif menu == "Scan URL / Text":
                     "Both the AI model and VirusTotal identified this URL as potentially malicious."
                 )
 
-            elif malicious > 0:
+            elif is_url and malicious > 0:
 
                 st.warning(
                     "⚠️ SUSPICIOUS URL DETECTED"
@@ -921,39 +1098,57 @@ elif menu == "Scan URL / Text":
                     "VirusTotal identified suspicious activity associated with this URL."
                 )
 
-            elif "phishing" in label.lower() and malicious == 0:
+            elif "phishing" in label.lower():
 
-                st.success(
-                    "✅ URL APPEARS SAFE"
+                st.warning(
+                    "⚠️ AI MODEL FLAGGED THIS INPUT"
                 )
 
-                st.markdown(
-                    "VirusTotal verified that this URL is safe. The AI model prediction is likely a false positive."
-                )
+                if is_url:
+
+                    st.markdown(
+                        "The AI model detected phishing-related patterns, but VirusTotal did not classify the URL as malicious. This may indicate a false positive."
+                    )
+
+                else:
+
+                    st.markdown(
+                        "The AI model detected phishing-related patterns in the text message."
+                    )
 
             else:
 
                 st.success(
-                    "✅ URL APPEARS SAFE"
+                    "✅ INPUT APPEARS SAFE"
                 )
 
                 st.markdown(
-                    "No phishing indicators were strongly detected by the AI model or VirusTotal."
+                    "No strong phishing indicators were detected by the AI model."
                 )
+
+            # =================================================
+            # THREAT ANALYSIS REPORT
+            # =================================================
 
             st.markdown("## 📄 Threat Analysis Report")
 
             ai_result = label.upper()
 
-            if malicious > 0:
+            if is_url:
 
-                vt_result = "MALICIOUS"
+                if malicious > 0:
+
+                    vt_result = "MALICIOUS"
+
+                else:
+
+                    vt_result = "SAFE"
 
             else:
 
-                vt_result = "SAFE"
+                vt_result = "NOT APPLICABLE FOR TEXT INPUT"
 
-            if "phishing" in label.lower() and malicious > 0:
+            if is_url and "phishing" in label.lower() and malicious > 0:
 
                 final_status = "HIGH RISK"
 
@@ -962,7 +1157,7 @@ elif menu == "Scan URL / Text":
                 from the network firewall or security system.
                 """
 
-            elif malicious > 0:
+            elif is_url and malicious > 0:
 
                 final_status = "SUSPICIOUS"
 
@@ -971,23 +1166,33 @@ elif menu == "Scan URL / Text":
                 threat intelligence identified suspicious activity.
                 """
 
-            elif "phishing" in label.lower() and malicious == 0:
+            elif "phishing" in label.lower():
 
-                final_status = "SAFE (False Positive Detected)"
+                if is_url:
 
-                recommendation = """
-                The AI model incorrectly flagged this URL as phishing,
-                but VirusTotal confirmed that the URL appears safe.
-                This may indicate a false positive prediction from the AI model.
-                """
+                    final_status = "AI FLAGGED / POSSIBLE FALSE POSITIVE"
+
+                    recommendation = """
+                    The AI model flagged this URL as phishing, but VirusTotal
+                    did not confirm malicious activity. Review the URL carefully
+                    before accessing it.
+                    """
+
+                else:
+
+                    final_status = "PHISHING TEXT DETECTED"
+
+                    recommendation = """
+                    The message contains phishing-related patterns. Avoid clicking
+                    any links, sharing personal information, or responding to the message.
+                    """
 
             else:
 
                 final_status = "SAFE"
 
                 recommendation = """
-                No strong phishing indicators were detected from both
-                AI analysis and VirusTotal verification.
+                No strong phishing indicators were detected from the available analysis.
                 """
 
             report_df = pd.DataFrame({
@@ -1014,6 +1219,12 @@ elif menu == "Scan URL / Text":
             st.markdown("### 🛡️ Security Recommendation")
 
             st.info(recommendation)
+
+        else:
+
+            st.warning(
+                "Please enter a URL or phishing-related message first."
+            )
 
 # =====================================================
 # USER MANUAL PAGE
@@ -1312,7 +1523,7 @@ elif menu == "About":
         border-radius: 18px;
         border: 1px solid rgba(255,255,255,0.08);
         transition: 0.3s;
-        height: 230px;
+        min-height: 230px;
         box-shadow: 0px 4px 12px rgba(0,0,0,0.2);
     }
 
@@ -1429,7 +1640,7 @@ elif menu == "Phishing Related Insights":
         border-radius: 18px;
         border: 1px solid rgba(255,255,255,0.08);
         transition: 0.3s;
-        height: 270px;
+        min-height: 270px;
         box-shadow: 0px 4px 12px rgba(0,0,0,0.25);
     }
 
