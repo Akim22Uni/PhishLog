@@ -1821,40 +1821,24 @@ elif menu == "About":
     # =====================================================
     # DEVELOPER INFORMATION
     # =====================================================
+  
+    st.markdown("<br>", unsafe_allow_html=True)
 
-    st.markdown("## 👨‍💻 Developer Information")
+    st.markdown("""
+    <div class="info-box">
 
-    st.markdown(
-        """
-        <div style="
-            background:#0D2347;
-            padding:25px;
-            border-radius:18px;
-            border:1px solid rgba(255,255,255,0.10);
-            border-left:5px solid #00C2FF;
-            margin-top:10px;
-        ">
-
-        <h3 style="color:#00C2FF; margin-bottom:15px;">
-            Developer Details
-        </h3>
-
-        <p style="font-size:16px; color:white;">
-            <b>Name:</b> Aqmal Hakim Bin Zulkifli
-        </p>
-
-        <p style="font-size:16px; color:white;">
-            <b>No. Matrix:</b> 2023449352
-        </p>
-
-        <p style="font-size:16px; color:white;">
-            <b>Email:</b> 2023449352@student.uitm.edu.my
-        </p>
-
+        <div class="info-title">
+            👨‍💻 Developer Information
         </div>
-        """,
-        unsafe_allow_html=True
-    )
+
+        <div class="info-text">
+            <b>Name:</b> Aqmal Hakim Bin Zulkifli<br><br>
+            <b>No. Matrix:</b> 2023449352<br><br>
+            <b>Email:</b> 2023449352@student.uitm.edu.my
+        </div>
+
+    </div>
+    """, unsafe_allow_html=True)
 
 # =====================================================
 # PHISHING RELATED INSIGHTS
@@ -2021,23 +2005,36 @@ elif menu == "Phishing Related Insights":
     )
 
 # =====================================================
-# FOOTER
+# FIXED FOOTER
 # =====================================================
 
 st.markdown(
     """
-    <hr style="margin-top:50px; border:1px solid rgba(255,255,255,0.08);">
+    <style>
 
-    <div style="
-        text-align:center;
-        padding:15px;
-        color:#7FDBFF;
-        font-size:14px;
-    ">
+    .fixed-footer {
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        background: linear-gradient(90deg, #071B34, #0D2347);
+        border-top: 1px solid rgba(0,194,255,0.25);
+        color: #7FDBFF;
+        text-align: center;
+        padding: 10px 0px;
+        font-size: 13px;
+        z-index: 999;
+        box-shadow: 0px -4px 14px rgba(0,0,0,0.35);
+    }
 
-        © 2026 PhishLog Security Dashboard <br>
-        Developed by Aqmal Hakim Bin Zulkifli
+    .fixed-footer b {
+        color: white;
+    }
 
+    </style>
+
+    <div class="fixed-footer">
+        © 2026 <b>PhishLog Security Dashboard</b> | Developed by Aqmal Hakim Bin Zulkifli
     </div>
     """,
     unsafe_allow_html=True
