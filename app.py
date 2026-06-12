@@ -894,58 +894,137 @@ if menu == "Dashboard":
     st.divider()
 
     # =================================================
-    # PRESCRIPTIVE ANALYTICS
-    # =================================================
+# PRESCRIPTIVE ANALYTICS
+# =================================================
 
-    st.markdown("## 🛡️ Prescriptive Analytics")
+st.markdown("## 🛡️ Prescriptive Analytics")
 
-    st.caption(
-        "Provides recommended security actions based on the current dashboard findings."
-    )
+st.caption(
+    "Provides recommended security actions based on the current dashboard findings."
+)
 
-    p1, p2, p3 = st.columns(3)
+# =================================================
+# THREAT PERCENTAGE CALCULATION
+# =================================================
 
-    with p1:
+malicious_percent = (malicious_logs / total_logs) * 100
+suspicious_percent = (suspicious_logs / total_logs) * 100
+blocked_percent = (blocked_requests / total_logs) * 100
 
-        if malicious_logs > 0:
+p1, p2, p3 = st.columns(3)
 
-            st.error(
-                "🚨 High-risk activities detected. Review malicious logs and strengthen firewall rules immediately."
-            )
+# =================================================
+# THREAT SEVERITY ANALYSIS
+# =================================================
 
-        else:
+with p1:
 
-            st.success(
-                "✅ No malicious logs detected in the current filtered data."
-            )
+    if malicious_percent >= 40:
 
-    with p2:
+        st.error(
+            f"""
+            🚨 Critical threat level detected.
 
-        if suspicious_logs > malicious_logs:
+            {malicious_percent:.1f}% of monitored logs are classified as malicious.
+            Immediate firewall review, IP blocking, and incident response actions are strongly recommended.
+            """
+        )
 
-            st.warning(
-                "⚠️ Suspicious activities are high. Monitor login activities and investigate unusual access patterns."
-            )
+    elif malicious_percent >= 15:
 
-        else:
+        st.warning(
+            f"""
+            ⚠️ Elevated malicious activity detected.
 
-            st.info(
-                "🔍 Continue monitoring suspicious activities regularly."
-            )
+            {malicious_percent:.1f}% of logs contain malicious indicators.
+            Continuous monitoring and threat investigation are recommended.
+            """
+        )
 
-    with p3:
+    else:
 
-        if blocked_requests > 0:
+        st.success(
+            f"""
+            ✅ Malicious activity remains relatively low.
 
-            st.success(
-                "✅ Blocked requests detected. Keep firewall and IDS rules updated continuously."
-            )
+            Current malicious activity represents only
+            {malicious_percent:.1f}% of monitored logs.
+            """
+        )
 
-        else:
+# =================================================
+# SUSPICIOUS ACTIVITY ANALYSIS
+# =================================================
 
-            st.warning(
-                "⚠️ No blocked requests detected. Review security rules to ensure threats are properly filtered."
-            )
+with p2:
+
+    if suspicious_percent >= 50:
+
+        st.warning(
+            f"""
+            ⚠️ High suspicious activity detected.
+
+            {suspicious_percent:.1f}% of current logs contain suspicious behavior patterns.
+            User authentication logs and unusual network activities should be reviewed.
+            """
+        )
+
+    elif suspicious_percent >= 20:
+
+        st.info(
+            f"""
+            🔍 Moderate suspicious activities observed.
+
+            {suspicious_percent:.1f}% of logs require further monitoring and behavioral analysis.
+            """
+        )
+
+    else:
+
+        st.success(
+            f"""
+            ✅ Suspicious activity level is currently manageable.
+
+            Only {suspicious_percent:.1f}% of monitored logs are classified as suspicious.
+            """
+        )
+
+# =================================================
+# BLOCKED REQUEST ANALYSIS
+# =================================================
+
+with p3:
+
+    if blocked_percent >= 40:
+
+        st.success(
+            f"""
+            🛡️ Security protection is actively blocking threats.
+
+            {blocked_percent:.1f}% of requests were successfully blocked by security controls.
+            """
+        )
+
+    elif blocked_percent >= 10:
+
+        st.info(
+            f"""
+            🔐 Security systems are filtering suspicious requests.
+
+            Current blocked request rate is {blocked_percent:.1f}%.
+            """
+        )
+
+    else:
+
+        st.warning(
+            f"""
+            ⚠️ Low blocked request activity detected.
+
+            Only {blocked_percent:.1f}% of requests were blocked.
+            Security filtering configurations may require review.
+            """
+        )
 
     st.divider()
 
@@ -1326,55 +1405,67 @@ elif menu == "User Manual":
                 The main dashboard provides real-time cybersecurity monitoring, phishing detection analytics, and threat activity visualization using server access logs.
             </div>
 
-            <div class="manual-box">
-                <div class="manual-title">🎛️ Filters</div>
-                Users can filter logs by threat severity, protocol, and log source.
-            </div>
+                       <div class="manual-box">
 
-            <div class="manual-box">
-                <div class="manual-title">📌 KPI Cards</div>
+                <div class="manual-title">
+                    📌 KPI Cards
+                </div>
 
-                Displays key cybersecurity monitoring statistics including:
+                <p>
+                    Displays key cybersecurity monitoring statistics including:
+                </p>
 
-                <ul>
-                    <li>
-                        <b>Total Logs</b> – Overall number of monitored server access logs.
-                    </li>
+                <p>
+                    🔵 <b>Total Logs</b> – Overall number of monitored server access logs.
+                </p>
 
-                    <li>
-                        <b>Suspicious Logs</b> – Indicates potentially suspicious activities detected from server traffic.
-                    </li>
+                <p>
+                    🟠 <b>Suspicious Logs</b> – Indicates potentially suspicious activities detected from server traffic.
+                </p>
 
-                    <li>
-                        <b>Malicious Logs</b> – Represents high-risk or malicious activities identified during monitoring.
-                    </li>
+                <p>
+                    🔴 <b>Malicious Logs</b> – Represents high-risk or malicious activities identified during monitoring.
+                </p>
 
-                    <li>
-                        <b>Blocked Requests</b> – Displays requests successfully blocked by the security monitoring system.
-                    </li>
-                </ul>
+                <p>
+                    🟢 <b>Blocked Requests</b> – Displays requests successfully blocked by the security monitoring system.
+                </p>
+
+                <br>
 
                 <b>KPI Color Indicators:</b>
 
-                <ul>
-                    <li>
-                        🔵 Blue – General monitoring information.
-                    </li>
+                <p>
+                    🔵 Blue – General monitoring information.
+                </p>
 
-                    <li>
-                        🟠 Orange – Suspicious activity increase.
-                    </li>
+                <p>
+                    🟠 Orange – Suspicious activity increase.
+                </p>
 
-                    <li>
-                        🔴 Red – Malicious or high-risk activity increase.
-                    </li>
+                <p>
+                    🔴 Red – Malicious or high-risk activity increase.
+                </p>
 
-                    <li>
-                        🟢 Green – Successful blocked or protected requests.
-                    </li>
-                </ul>
+                <p>
+                    🟢 Green – Successful blocked or protected requests.
+                </p>
 
-                The colored arrows help users quickly identify cybersecurity risk levels and monitoring status changes.
+                <p>
+                    The colored arrows help users quickly identify cybersecurity risk levels and monitoring status changes.
+                </p>
+
+            </div>
+
+            <div class="manual-box">
+
+                <div class="manual-title">
+                    🚦 Threat Action Distribution
+                </div>
+
+                Displays the comparison between blocked and allowed requests using a dynamic progress visualization.
+                The section automatically updates based on selected dashboard filters.
+
             </div>
 
             <div class="manual-box">
