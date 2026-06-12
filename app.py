@@ -541,28 +541,32 @@ if menu == "Dashboard":
         "Total Logs",
         f"{total_logs:,}",
         delta=f"+{total_logs//15}",
-        delta_color="normal"
+        delta_color="normal",
+        help="Total number of server access log records currently displayed based on selected filters."
     )
 
     col2.metric(
         "Suspicious Logs",
         f"{suspicious_logs:,}",
         delta=f"+{suspicious_logs//20}",
-        delta_color="inverse"
+        delta_color="inverse",
+        help="Suspicious logs indicate activities that may require further investigation. An increase is shown as a risk indicator."
     )
 
     col3.metric(
         "Malicious Logs",
         f"{malicious_logs:,}",
         delta=f"+{malicious_logs//25}",
-        delta_color="inverse"
+        delta_color="inverse",
+        help="Malicious logs represent high-risk activities detected in the monitoring data. An increase may indicate higher threat level."
     )
 
     col4.metric(
         "Blocked Requests",
         f"{blocked_requests:,}",
         delta=f"+{blocked_requests//18}",
-        delta_color="normal"
+        delta_color="normal",
+        help="Blocked requests show activities stopped by the security system. An increase can indicate successful protection against suspicious requests."
     )
 
     st.divider()
@@ -610,6 +614,15 @@ if menu == "Dashboard":
             legend_title="Threat Category"
         )
 
+        fig1.update_traces(
+            hovertemplate=
+            "<b>Threat Category:</b> %{label}<br>"
+            "<b>Total Logs:</b> %{value}<br>"
+            "<b>Percentage:</b> %{percent}<br><br>"
+            "This section shows how much of the monitored traffic belongs to this threat category."
+            "<extra></extra>"
+        )
+
         st.plotly_chart(
             fig1,
             use_container_width=True
@@ -652,6 +665,14 @@ if menu == "Dashboard":
             legend_title="Protocol Type"
         )
 
+        fig2.update_traces(
+            hovertemplate=
+            "<b>Protocol:</b> %{x}<br>"
+            "<b>Total Logs:</b> %{y}<br><br>"
+            "This section shows how frequently this network protocol appears in the selected logs."
+            "<extra></extra>"
+        )
+
         st.plotly_chart(
             fig2,
             use_container_width=True
@@ -692,6 +713,14 @@ if menu == "Dashboard":
             height=320,
             showlegend=True,
             legend_title="Log Source"
+        )
+
+        fig3.update_traces(
+            hovertemplate=
+            "<b>Log Source:</b> %{x}<br>"
+            "<b>Total Records:</b> %{y}<br><br>"
+            "This section shows which log source contributes the most monitoring activity."
+            "<extra></extra>"
         )
 
         st.plotly_chart(
@@ -847,6 +876,14 @@ if menu == "Dashboard":
         plot_bgcolor="#0D2347",
         font_color="white",
         height=400
+    )
+
+    fig4.update_traces(
+        hovertemplate=
+        "<b>Date:</b> %{x}<br>"
+        "<b>Threat Activity Count:</b> %{y}<br><br>"
+        "This point shows the number of threat events detected on this date."
+        "<extra></extra>"
     )
 
     st.plotly_chart(
@@ -1296,7 +1333,48 @@ elif menu == "User Manual":
 
             <div class="manual-box">
                 <div class="manual-title">📌 KPI Cards</div>
-                Shows total logs, suspicious logs, malicious logs, and blocked requests.
+
+                Displays key cybersecurity monitoring statistics including:
+
+                <ul>
+                    <li>
+                        <b>Total Logs</b> – Overall number of monitored server access logs.
+                    </li>
+
+                    <li>
+                        <b>Suspicious Logs</b> – Indicates potentially suspicious activities detected from server traffic.
+                    </li>
+
+                    <li>
+                        <b>Malicious Logs</b> – Represents high-risk or malicious activities identified during monitoring.
+                    </li>
+
+                    <li>
+                        <b>Blocked Requests</b> – Displays requests successfully blocked by the security monitoring system.
+                    </li>
+                </ul>
+
+                <b>KPI Color Indicators:</b>
+
+                <ul>
+                    <li>
+                        🔵 Blue – General monitoring information.
+                    </li>
+
+                    <li>
+                        🟠 Orange – Suspicious activity increase.
+                    </li>
+
+                    <li>
+                        🔴 Red – Malicious or high-risk activity increase.
+                    </li>
+
+                    <li>
+                        🟢 Green – Successful blocked or protected requests.
+                    </li>
+                </ul>
+
+                The colored arrows help users quickly identify cybersecurity risk levels and monitoring status changes.
             </div>
 
             <div class="manual-box">
